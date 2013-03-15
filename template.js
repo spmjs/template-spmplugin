@@ -13,7 +13,7 @@ exports.template = function(grunt, init, done) {
     init.prompt('name', function(value, props, done) {
       var name = 'spm-' + value;
       done(null, name);
-    });
+    }),
     init.prompt('version', '1.0.0'),
     init.prompt('description', 'The best spm plugin ever.'),
     init.prompt('repository'),
@@ -21,19 +21,22 @@ exports.template = function(grunt, init, done) {
     init.prompt('bugs'),
     init.prompt('licenses', 'MIT')
   ], function(err, props) {
-    var files = init.filesToCopy(props);
+    props.short_name = props.name.replace(/^spm[\-_]?/, '');
     props.keywords = ['spmplugin'];
-    props.short_name = props.name.replace(/^spm[\-_]?/, '').replace(/[\W_]+/g, '_').replace(/^(\d)/, '_$1');
+    props.bin = {};
+    props.bin[props.name] = 'bin/' + props.name;
 
+    var files = init.filesToCopy(props);
     // Actually copy (and process) files.
     init.copyAndProcess(files, props);
 
     // Generate package.json file, used by npm and grunt.
-    props.scripts = {
-      'postinstall': 'scripts/post-install.js',
-      'uninstall': 'scripts/uninstall.js'
-    };
-    init.writePackageJSON('package.json', props);
+    init.writePackageJSON('package.json', props, function(pkg, props) {
+      pkg.scripts = pkg.scripts || {};
+      pkg.scripts.postinstall = 'scripts/postinstall.js',
+      pkg.scripts.uninstall = 'scripts/uninstall.js'
+      return pkg;
+    });
     // All done!
     done();
   });

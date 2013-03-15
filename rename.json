@@ -1,3 +1,4 @@
 {
-  "bin/spm-name": "bin/spm-{%= short_name %}"
+  "bin/spm-name": "bin/spm-{%= short_name %}",
+  "tests/name.test.js": "tests/{%= short_name %}.test.js"
 }
