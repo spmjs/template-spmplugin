@@ -1,0 +1,3 @@
+{
+  "bin/spm-name": "bin/spm-{%= short_name %}"
+}
