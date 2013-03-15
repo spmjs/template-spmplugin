@@ -1,4 +1,6 @@
- 'use strict';
+'use strict';
+
+var fs = require('fs');
 
 exports.description = 'Create spm plugin.';
 
@@ -37,6 +39,10 @@ exports.template = function(grunt, init, done) {
       pkg.scripts.uninstall = 'scripts/uninstall.js'
       return pkg;
     });
+    var mode = parseInt('0777', 8);
+    fs.chmodSync('scripts/postinstall.js', mode);
+    fs.chmodSync('scripts/uninstall.js', mode);
+    fs.chmodSync('bin/' + props.name, mode);
     // All done!
     done();
   });
