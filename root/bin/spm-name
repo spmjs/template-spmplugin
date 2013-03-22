@@ -1,1 +1,3 @@
+#!/usr/bin/env node
+
 var {%= short_name %} = require('..');
