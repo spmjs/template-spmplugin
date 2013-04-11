@@ -35,8 +35,8 @@ exports.template = function(grunt, init, done) {
     // Generate package.json file, used by npm and grunt.
     init.writePackageJSON('package.json', props, function(pkg, props) {
       pkg.scripts = pkg.scripts || {};
-      pkg.scripts.postinstall = 'scripts/postinstall.js',
-      pkg.scripts.uninstall = 'scripts/uninstall.js'
+      pkg.scripts.postinstall = 'node scripts/postinstall.js',
+      pkg.scripts.uninstall = 'node scripts/uninstall.js'
       return pkg;
     });
     var mode = parseInt('0777', 8);
